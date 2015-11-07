@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 
-public class Alumno {
+public class estudianteTFG {
 	private String _sNombre;
 	private String _sApellidos;
 	private String _sTitulo;
@@ -15,6 +15,14 @@ public class Alumno {
 	private boolean _bEstado;
 	private LocalDateTime _ldtFecha;
 	private double _dCalificacion;
+	
+	public estudianteTFG (String sNombre, String sApellidos, String sTitulo, boolean bEstado)
+	{
+		_sNombre = sNombre;
+		_sApellidos = sApellidos;
+		_sTitulo = sTitulo;
+		_bEstado = bEstado;
+	}
 	
 	public String get_sNombre() {
 		return _sNombre;
@@ -65,5 +73,22 @@ public class Alumno {
 		this._dCalificacion = _dCalificacion;
 	}
 	
-	
+	public static estudianteTFG New (String sNombre, String sApellidos, String sTitulo, boolean bEstado) 
+			throws Exception
+	{
+		Connection conexion = null;
+		
+		String sConsulta = String.format("INSERT INTO Alumno(Nombre, Apellidos, Titulo, Tutor1, Estado)" + 
+				"VALUES('%s', '%s', '%s', '%s', %d)", sNombre, sApellidos, sTitulo, (bEstado) ? 1 : 0);
+		
+		try{
+			conexion = AlumDatabase.Connection();
+			conexion.createStatement().executeUpdate(sConsulta);
+			return (new estudianteTFG(sNombre, sApellidos, sTitulo, bEstado));
+		}
+		catch(SQLException e) { throw e; }
+		finally {
+			if(conexion != null) conexion.close();
+		}
+	}
 }
