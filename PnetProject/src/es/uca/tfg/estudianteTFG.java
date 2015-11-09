@@ -16,12 +16,13 @@ public class estudianteTFG {
 	private LocalDateTime _ldtFecha;
 	private double _dCalificacion;
 	
-	public estudianteTFG (String sNombre, String sApellidos, String sTitulo, boolean bEstado)
+	public estudianteTFG (String sNombre, String sApellidos, String sTitulo, String sTutor1, boolean bEstado)
 	{
 		_sNombre = sNombre;
 		_sApellidos = sApellidos;
 		_sTitulo = sTitulo;
 		_bEstado = bEstado;
+		_sTutor1 = sTutor1;
 	}
 	
 	public String get_sNombre() {
@@ -73,22 +74,27 @@ public class estudianteTFG {
 		this._dCalificacion = _dCalificacion;
 	}
 	
-	public static estudianteTFG New (String sNombre, String sApellidos, String sTitulo, boolean bEstado) 
+	public static estudianteTFG New (String sNombre, String sApellidos, String sTitulo, String sTutor1, boolean bEstado) 
 			throws Exception
 	{
 		Connection conexion = null;
 		
 		String sConsulta = String.format("INSERT INTO Alumno(Nombre, Apellidos, Titulo, Tutor1, Estado)" + 
-				"VALUES('%s', '%s', '%s', '%s', %d)", sNombre, sApellidos, sTitulo, (bEstado) ? 1 : 0);
+				"VALUES('%s', '%s', '%s', '%s', %d)", sNombre, sApellidos, sTitulo, sTutor1, (bEstado) ? 1 : 0);
 		
 		try{
 			conexion = AlumDatabase.Connection();
 			conexion.createStatement().executeUpdate(sConsulta);
-			return (new estudianteTFG(sNombre, sApellidos, sTitulo, bEstado));
+			return (new estudianteTFG(sNombre, sApellidos, sTitulo, sTutor1, bEstado));
 		}
 		catch(SQLException e) { throw e; }
 		finally {
 			if(conexion != null) conexion.close();
 		}
+	}
+	
+	public static void main(String[] args) throws Exception {
+		estudianteTFG est = New("prueba", "PruebaPrueba", "TFG de prueba", "Kevin", false);
+		System.out.println("OK");
 	}
 }
