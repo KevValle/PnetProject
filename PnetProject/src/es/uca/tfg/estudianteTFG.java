@@ -256,7 +256,7 @@ public class estudianteTFG {
 	}
 	
 		
-	public static void main(String[] args) throws Exception {
+	/*public static void main(String[] args) throws Exception {
 		//estudianteTFG est = New("45985421E", "prueba", "PruebaPrueba", "TFG de prueba", "Kevin", false);
 		/*setTutor2("45985221E", "Pruebas");
 		LocalDateTime ldt = LocalDateTime.now().plusDays(2l);
@@ -266,11 +266,11 @@ public class estudianteTFG {
 		
 		
 		
-		List<estudianteTFG> estudiantes = getAllEstudiantes();
+		/*List<estudianteTFG> estudiantes = getAllEstudiantes();
 		
 		System.out.println(estudiantes.get(0).get_sDNI());
 		System.out.println(estudiantes.get(1).get_sDNI());
 		System.out.println(getEstudiante("PruebaPrueba"));
 		System.out.println("OK");
-	}
+	}*/
 }
