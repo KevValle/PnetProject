@@ -1,6 +1,7 @@
 package es.uca.tfg;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -77,7 +78,9 @@ public class estudianteTFG {
 				"VALUES('%s', '%s', '%s', '%s', '%s', %d)", sDNI, sNombre, sApellidos, sTitulo, sTutor1, (bEstado) ? 1 : 0);
 		
 		try{
-			conexion = AlumDatabase.Connection();
+			Class.forName("com.mysql.jdbc.Driver");
+			conexion = DriverManager.getConnection(
+					"jdbc:mysql://127.0.0.1:3306/pnetproject", "pnet", "pnet");
 			conexion.createStatement().executeUpdate(sConsulta);
 			return (new estudianteTFG(sDNI, sNombre, sApellidos, sTitulo, sTutor1, bEstado));
 		}
@@ -93,7 +96,9 @@ public class estudianteTFG {
 		String sConsulta = String.format("UPDATE Alumno SET tutor2='%s' WHERE DNI='%s'", sTutor2, sDNI);
 		
 		try{
-			conexion = AlumDatabase.Connection();
+			Class.forName("com.mysql.jdbc.Driver");
+			conexion = DriverManager.getConnection(
+					"jdbc:mysql://127.0.0.1:3306/pnetproject", "pnet", "pnet");
 			conexion.createStatement().executeUpdate(sConsulta);
 		}
 		catch(SQLException e) { throw e; }
@@ -108,7 +113,9 @@ public class estudianteTFG {
 		String sConsulta = String.format("UPDATE Alumno SET Fecha=%s WHERE DNI='%s'", AlumDatabase.DateTime2Sql(ldtFecha), sDNI);
 		System.out.println(sConsulta);
 		try{
-			conexion = AlumDatabase.Connection();
+			Class.forName("com.mysql.jdbc.Driver");
+			conexion = DriverManager.getConnection(
+					"jdbc:mysql://127.0.0.1:3306/pnetproject", "pnet", "pnet");
 			conexion.createStatement().executeUpdate(sConsulta);
 		}
 		catch(SQLException e) { throw e; }
@@ -124,7 +131,9 @@ public class estudianteTFG {
 		sConsulta = sConsulta.replace(',', '.');
 		System.out.println(sConsulta);
 		try{
-			conexion = AlumDatabase.Connection();
+			Class.forName("com.mysql.jdbc.Driver");
+			conexion = DriverManager.getConnection(
+					"jdbc:mysql://127.0.0.1:3306/pnetproject", "pnet", "pnet");
 			conexion.createStatement().executeUpdate(sConsulta);
 		}
 		catch(SQLException e) { throw e; }
@@ -141,7 +150,9 @@ public class estudianteTFG {
 		String sConsulta = "SELECT * FROM Alumno";
 		
 		try{
-			conexion = AlumDatabase.Connection();
+			Class.forName("com.mysql.jdbc.Driver");
+			conexion = DriverManager.getConnection(
+					"jdbc:mysql://127.0.0.1:3306/pnetproject", "pnet", "pnet");
 			rsResultado = conexion.createStatement().executeQuery(sConsulta);
 			
 			while(rsResultado.next()) {
@@ -169,7 +180,9 @@ public class estudianteTFG {
 		String sConsulta = String.format("SELECT * FROM Alumno WHERE Apellidos='%s'", sApellidos);
 		
 		try{
-			conexion = AlumDatabase.Connection();
+			Class.forName("com.mysql.jdbc.Driver");
+			conexion = DriverManager.getConnection(
+					"jdbc:mysql://127.0.0.1:3306/pnetproject", "pnet", "pnet");
 			rsResultado = conexion.createStatement().executeQuery(sConsulta);
 			
 			while(rsResultado.next()) {
@@ -199,7 +212,9 @@ public class estudianteTFG {
 		String sConsulta = String.format("UPDATE Alumno SET apellidos='%s' WHERE DNI='%s'", sApellidos, eEstudiante.get_sDNI());
 		
 		try{
-			conexion = AlumDatabase.Connection();
+			Class.forName("com.mysql.jdbc.Driver");
+			conexion = DriverManager.getConnection(
+					"jdbc:mysql://127.0.0.1:3306/pnetproject", "pnet", "pnet");
 			if(conexion.createStatement().executeUpdate(sConsulta) != 0) {
 				return true;
 			}else return false;
@@ -217,7 +232,9 @@ public class estudianteTFG {
 		String sConsulta = String.format("DELETE FROM Alumno WHERE apellidos='%s'", sApellidos);
 		
 		try{
-			conexion = AlumDatabase.Connection();
+			Class.forName("com.mysql.jdbc.Driver");
+			conexion = DriverManager.getConnection(
+					"jdbc:mysql://127.0.0.1:3306/pnetproject", "pnet", "pnet");
 			if(conexion.createStatement().executeUpdate(sConsulta) != 0) {
 				return true;
 			}else return false;
@@ -273,4 +290,5 @@ public class estudianteTFG {
 		System.out.println(getEstudiante("PruebaPrueba"));
 		System.out.println("OK");
 	}*/
+
 }

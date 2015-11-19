@@ -10,7 +10,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
+import java.sql.DriverManager;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 
 @Path("/tfg")
@@ -28,6 +30,7 @@ public class serviciosRest {
 	
 	@GET
 	@Path("/estudiante/{apellidos}")
+	@Consumes (MediaType.TEXT_PLAIN)
 	@Produces (MediaType.TEXT_PLAIN)
 	public String Estudiante (@PathParam("apellidos")String apellidos) throws Exception
 	{

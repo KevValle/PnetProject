@@ -11,7 +11,7 @@ import java.util.Properties;
 
 public class AlumDatabase {
 	
-	private static final String _CsPropertiesUrl = "./db.properties";
+	private static final String _CsPropertiesUrl = "db.properties";
 	
 	public static Properties Properties(String sFile)
 		throws IOException {
