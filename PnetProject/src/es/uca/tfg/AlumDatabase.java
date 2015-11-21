@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.sql.DriverManager;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Properties;
 
@@ -61,12 +62,13 @@ public class AlumDatabase {
 		}
 	}
 	
-	public static String DateTime2Sql(LocalDateTime dt)
+	public static String DateTime2Sql(LocalDate dt)
 	{
 		String sFechaSql = String.format("'%s'", dt.toString().substring(0, 10));
 		
 		return sFechaSql;
 	}
+
 		
 	
 }

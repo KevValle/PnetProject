@@ -4,7 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +18,7 @@ public class estudianteTFG {
 	private String _sTutor1;
 	private String _sTutor2;
 	private boolean _bEstado;
-	private LocalDateTime _ldtFecha;
+	private LocalDate _ldtFecha;
 	private double _dCalificacion;
 	
 	public estudianteTFG() {}
@@ -60,7 +61,7 @@ public class estudianteTFG {
 		return _bEstado;
 	}
 
-	public LocalDateTime get_ldtFecha() {
+	public LocalDate get_ldtFecha() {
 		return _ldtFecha;
 	}
 
@@ -94,12 +95,14 @@ public class estudianteTFG {
 		Connection conexion = null;
 		
 		String sConsulta = String.format("UPDATE Alumno SET tutor2='%s' WHERE DNI='%s'", sTutor2, sDNI);
+		System.out.println(sConsulta);
 		
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
 			conexion = DriverManager.getConnection(
 					"jdbc:mysql://127.0.0.1:3306/pnetproject", "pnet", "pnet");
 			conexion.createStatement().executeUpdate(sConsulta);
+			_sTutor2 = sTutor2;
 		}
 		catch(SQLException e) { throw e; }
 		finally {
@@ -107,7 +110,7 @@ public class estudianteTFG {
 		}
 	}
 	
-	public void setFecha(String sDNI, LocalDateTime ldtFecha) throws Exception {
+	public void setFecha(String sDNI, LocalDate ldtFecha) throws Exception {
 		Connection conexion = null;
 		
 		String sConsulta = String.format("UPDATE Alumno SET Fecha=%s WHERE DNI='%s'", AlumDatabase.DateTime2Sql(ldtFecha), sDNI);
@@ -117,6 +120,7 @@ public class estudianteTFG {
 			conexion = DriverManager.getConnection(
 					"jdbc:mysql://127.0.0.1:3306/pnetproject", "pnet", "pnet");
 			conexion.createStatement().executeUpdate(sConsulta);
+			_ldtFecha = ldtFecha;
 		}
 		catch(SQLException e) { throw e; }
 		finally {
@@ -135,6 +139,7 @@ public class estudianteTFG {
 			conexion = DriverManager.getConnection(
 					"jdbc:mysql://127.0.0.1:3306/pnetproject", "pnet", "pnet");
 			conexion.createStatement().executeUpdate(sConsulta);
+			_dCalificacion = dCalificacion;
 		}
 		catch(SQLException e) { throw e; }
 		finally {
@@ -156,12 +161,27 @@ public class estudianteTFG {
 			rsResultado = conexion.createStatement().executeQuery(sConsulta);
 			
 			while(rsResultado.next()) {
-				estudiantes.add(new estudianteTFG(rsResultado.getString("DNI"), 
+				estudianteTFG alumno = new estudianteTFG(rsResultado.getString("DNI"), 
 						rsResultado.getString("nombre"),
 						rsResultado.getString("apellidos"), 
 						rsResultado.getString("titulo"), 
 						rsResultado.getString("tutor1"),
-						rsResultado.getBoolean("estado")));
+						rsResultado.getBoolean("estado"));
+				
+				if(rsResultado.getObject("tutor2") != null) {
+					alumno.setTutor2(rsResultado.getString("DNI"), rsResultado.getString("tutor2"));
+					
+				}
+				
+				if(rsResultado.getDate("fecha") != null) {
+					alumno.setFecha(rsResultado.getString("DNI"), rsResultado.getDate("fecha").toLocalDate());
+				}
+				
+				if(rsResultado.getDouble("calificacion") != 0) {
+					alumno.setCalificacion(rsResultado.getString("DNI"), rsResultado.getDouble("calificacion"));
+				}
+				
+				estudiantes.add(alumno);
 			}
 			
 			return estudiantes;
@@ -276,7 +296,7 @@ public class estudianteTFG {
 	/*public static void main(String[] args) throws Exception {
 		//estudianteTFG est = New("45985421E", "prueba", "PruebaPrueba", "TFG de prueba", "Kevin", false);
 		/*setTutor2("45985221E", "Pruebas");
-		LocalDateTime ldt = LocalDateTime.now().plusDays(2l);
+		LocalDate ldt = LocalDate.now().plusDays(2l);
 		setFecha("45985221E", ldt);*/
 		/*setCalificacion("45985221E", 10d);
 		setCalificacion("45985421E", 10d);*/
@@ -290,5 +310,6 @@ public class estudianteTFG {
 		System.out.println(getEstudiante("PruebaPrueba"));
 		System.out.println("OK");
 	}*/
+
 
 }
