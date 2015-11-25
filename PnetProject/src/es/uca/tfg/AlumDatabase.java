@@ -64,9 +64,13 @@ public class AlumDatabase {
 	
 	public static String DateTime2Sql(LocalDate dt)
 	{
-		String sFechaSql = String.format("'%s'", dt.toString().substring(0, 10));
+		if(dt != null) {
+			String sFechaSql = String.format("'%s'", dt.toString().substring(0, 10));
 		
-		return sFechaSql;
+			return sFechaSql;
+		} else {
+			return null;
+		}
 	}
 
 		

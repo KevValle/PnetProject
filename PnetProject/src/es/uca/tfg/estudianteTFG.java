@@ -7,7 +7,10 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import javax.print.attribute.standard.DateTimeAtCompleted;
 
 
 public class estudianteTFG {
@@ -207,15 +210,19 @@ public class estudianteTFG {
 			
 			while(rsResultado.next()) {
 				resultado += String.format("DNI: %s \nNombre: %s \n"
-										+ "Apellidos: %s\n Titulo de TFG: %s \n"
-										+ "Tutor 1: %s\n Tutor 2: %s \n"
-										+ "Presentado: %s\n Fecha: %s \n"
+										+ "Apellidos: %s\nTitulo de TFG: %s \n"
+										+ "Tutor 1: %s\nTutor 2: %s \n"
+										+ "Presentado: %s\nFecha: %s \n"
 										+ "Calificacion: %s \n\n" , rsResultado.getString("DNI"), rsResultado.getString("nombre"), 
 										rsResultado.getString("apellidos"), rsResultado.getString("titulo"),
 										rsResultado.getString("tutor1"), rsResultado.getString("tutor2"),
 										rsResultado.getBoolean("estado"), rsResultado.getString("fecha"),
 										rsResultado.getString("calificacion"));
 			}
+			
+			resultado = resultado.replace("null", "No tiene");
+			resultado = resultado.replace("true", "Sí");
+			resultado = resultado.replace("false", "No");
 					
 			
 			return resultado;
@@ -229,7 +236,13 @@ public class estudianteTFG {
 	public static boolean updateEstudiante(String sApellidos, estudianteTFG eEstudiante) throws Exception{
 		Connection conexion = null;
 		
-		String sConsulta = String.format("UPDATE Alumno SET apellidos='%s' WHERE DNI='%s'", sApellidos, eEstudiante.get_sDNI());
+		String sCal = String.format("calificacion=%f", eEstudiante.get_dCalificacion());
+		sCal = sCal.replace(',', '.');
+		
+		String sConsulta = String.format("UPDATE Alumno SET estado=%d, fecha=%s, %s,"
+				+ " titulo='%s' WHERE apellidos='%s'", eEstudiante.get_bEstado() ? 1 : 0, AlumDatabase.DateTime2Sql(eEstudiante.get_ldtFecha()),
+				sCal, eEstudiante.get_sTitulo(), sApellidos);
+		System.out.println(sConsulta);
 		
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
@@ -250,7 +263,7 @@ public class estudianteTFG {
 		Connection conexion = null;
 		
 		String sConsulta = String.format("DELETE FROM Alumno WHERE apellidos='%s'", sApellidos);
-		
+		System.out.println(sConsulta);
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
 			conexion = DriverManager.getConnection(
@@ -282,8 +295,7 @@ public class estudianteTFG {
 		
 		if(eEstudiante.get_ldtFecha() != null) {
 			aux.setFecha(eEstudiante.get_sDNI(), eEstudiante.get_ldtFecha());
-		}
-		
+		}		
 		if(eEstudiante.get_dCalificacion() != 0) {
 			aux.setCalificacion(eEstudiante.get_sDNI(), eEstudiante.get_dCalificacion());
 		}
@@ -292,24 +304,4 @@ public class estudianteTFG {
 		
 	}
 	
-		
-	/*public static void main(String[] args) throws Exception {
-		//estudianteTFG est = New("45985421E", "prueba", "PruebaPrueba", "TFG de prueba", "Kevin", false);
-		/*setTutor2("45985221E", "Pruebas");
-		LocalDate ldt = LocalDate.now().plusDays(2l);
-		setFecha("45985221E", ldt);*/
-		/*setCalificacion("45985221E", 10d);
-		setCalificacion("45985421E", 10d);*/
-		
-		
-		
-		/*List<estudianteTFG> estudiantes = getAllEstudiantes();
-		
-		System.out.println(estudiantes.get(0).get_sDNI());
-		System.out.println(estudiantes.get(1).get_sDNI());
-		System.out.println(getEstudiante("PruebaPrueba"));
-		System.out.println("OK");
-	}*/
-
-
 }
