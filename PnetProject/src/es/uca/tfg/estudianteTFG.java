@@ -3,7 +3,7 @@ package es.uca.tfg;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.time.LocalDate;
+import java.util.Date;
 
 public class estudianteTFG {
 	//Parámetros que conforman un estudiante
@@ -14,7 +14,7 @@ public class estudianteTFG {
 	private String _sTutor1;
 	private String _sTutor2;
 	private boolean _bEstado;
-	private LocalDate _ldtFecha;
+	private Date _ldtFecha;
 	private double _dCalificacion;
 	
 	/**
@@ -40,6 +40,7 @@ public class estudianteTFG {
 		_bEstado = bEstado;
 		_sTutor1 = sTutor1;
 	}
+	
 	
 	//Conjunto de funciones GET y SET necesarias
 	
@@ -96,7 +97,7 @@ public class estudianteTFG {
 	/**
 	 * @return
 	 */
-	public LocalDate get_ldtFecha() {
+	public Date get_ldtFecha() {
 		return _ldtFecha;
 	}
 
@@ -141,11 +142,11 @@ public class estudianteTFG {
 	 * @param ldtFecha
 	 * @throws Exception
 	 */
-	public void setFecha(String sDNI, LocalDate ldtFecha) throws Exception {
+	public void setFecha(String sDNI, Date ldtFecha) throws Exception {
 		Connection conexion = null;
 		
 		//Instrucción SQL
-		String sConsulta = String.format("UPDATE Alumno SET Fecha=%s WHERE DNI='%s'", AlumDatabase.DateTime2Sql(ldtFecha), sDNI);
+		String sConsulta = String.format("UPDATE Alumno SET Fecha='%s' WHERE DNI='%s'", new java.sql.Date(ldtFecha.getTime()), sDNI);
 		System.out.println(sConsulta);
 		try{
 			//Conexión con la Base de Datos

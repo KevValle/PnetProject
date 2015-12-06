@@ -4,8 +4,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class AlumDatabase {
@@ -29,6 +29,7 @@ public class AlumDatabase {
 		//Instrucción SQL
 		String sConsulta = String.format("INSERT INTO Alumno(DNI, Nombre, Apellidos, Titulo, Tutor1, Estado)" + 
 				"VALUES('%s', '%s', '%s', '%s', '%s', %d)", sDNI, sNombre, sApellidos, sTitulo, sTutor1, (bEstado) ? 1 : 0);
+		System.out.println(sConsulta);
 		
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
@@ -79,7 +80,7 @@ public class AlumDatabase {
 				}
 				
 				if(rsResultado.getDate("fecha") != null) {
-					alumno.setFecha(rsResultado.getString("DNI"), rsResultado.getDate("fecha").toLocalDate());
+					alumno.setFecha(rsResultado.getString("DNI"), rsResultado.getDate("fecha"));
 				}
 				
 				if(rsResultado.getDouble("calificacion") != 0) {
@@ -120,11 +121,11 @@ public class AlumDatabase {
 			
 			//Se formatea la salida a texto plano
 			while(rsResultado.next()) {
-				resultado += String.format("DNI: %s \nNombre: %s \n"
-										+ "Apellidos: %s\nTitulo de TFG: %s \n"
-										+ "Tutor 1: %s\nTutor 2: %s \n"
-										+ "Presentado: %s\nFecha: %s \n"
-										+ "Calificacion: %s \n\n" , rsResultado.getString("DNI"), rsResultado.getString("nombre"), 
+				resultado += String.format("DNI: %s <br /> \nNombre: %s \n<br />"
+										+ "Apellidos: %s\n<br />Titulo de TFG: %s \n<br />"
+										+ "Tutor 1: %s\n<br />Tutor 2: %s \n<br />"
+										+ "Presentado: %s\n<br />Fecha: %s \n<br />"
+										+ "Calificacion: %s \n\n <br />" , rsResultado.getString("DNI"), rsResultado.getString("nombre"), 
 										rsResultado.getString("apellidos"), rsResultado.getString("titulo"),
 										rsResultado.getString("tutor1"), rsResultado.getString("tutor2"),
 										rsResultado.getBoolean("estado"), rsResultado.getString("fecha"),
@@ -244,7 +245,7 @@ public class AlumDatabase {
 	 * @param dt
 	 * @return
 	 */
-	public static String DateTime2Sql(LocalDate dt)
+	public static String DateTime2Sql(Date dt)
 	{
 		//Si se recibe una fecha válida se devuelve convertida, si no, se devuelve nulo
 		if(dt != null) {
