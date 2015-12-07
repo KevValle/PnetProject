@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="js/jquery-2.1.4.js"></script>
+<script type="text/javascript" src="js/wsinvocation.js"></script>
+<link rel="stylesheet" type="text/css" href="css/styles.css">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<meta charset="utf-8">
+<title>Proyectos TFG</title>
+</head>
+<body>
+
+	<div class="tabs">
+	 
+	   <!-- Radio button and lable for #tab-content1 -->
+	   <input type="radio" name="tabs" id="tab1" checked >
+	   <label for="tab1">
+	       <span>Poyectos</span>
+	   </label>
+	 
+	   <!-- Radio button and lable for #tab-content2 -->
+	   <input type="radio" name="tabs" id="tab2">
+	   <label for="tab2">
+	       <span>Añadir/Borrar</span>
+	   </label>
+	 
+	   <!-- Radio button and lable for #tab-content3 -->
+	   <input type="radio" name="tabs" id="tab3">
+	   <label for="tab3">
+	       <span>Modificar</span>
+	   </label>
+	   
+	   
+	 
+	   <div id="tab-content1" class="tab-content">
+	      <form>
+			  Apellidos:<br>
+			  <input type="text" name="Apellidos" id="TextApellidos">
+			  <br>
+		  </form> 
+		  <input type="button" value="Todos" onclick="getAll()" />
+	      <input type="button" value="Buscar" onclick="getEstudiante(document.getElementById('TextApellidos').value)" />
+	      <div class="resultados">
+				<h3 id="result"></h3>
+		  </div>
+	   </div> <!-- #tab-content1 -->
+	   <div id="tab-content2" class="tab-content">
+	      <form>
+			  Apellidos:<br>
+			  <input type="text" name="Apellidos" id="textApellidos2">
+	      	  <input type="button" value="Borrar" onclick="deleteEstudiante(document.getElementById('textApellidos2').value)" />
+	          <br>
+	          Nombre:<br>
+			  <input type="text" name="Nombre" id="textNombre"><br>
+			  DNI:<br>
+			  <input type="text" name="dni" id="textDNI"><br>
+			  Tutor 1:<br>
+			  <input type="text" name="Tutor1" id="textTutor1"><br>
+			  Tutor 2:<br>
+			  <input type="text" name="Tutor2" id="textTutor2"><br>
+			  Titulo del TFG:<br>
+			  <input type="text" name="titulo" id="textTitulo"><br>
+		  </form> 
+	      <input type="button" value="Añadir" onclick="addEstudiante()" />
+	      <div class="resultados">
+				<h3 id="result2"></h3>
+		  </div>
+	   </div> <!-- #tab-content2 -->
+	   <div id="tab-content3" class="tab-content">
+	      <form>
+			  Apellidos:<br>
+			  <input type="text" name="Apellidos" id="textApellidos3">
+			  <br>
+			  Título del TFG:<br>
+			  <input type="text" name="titulo" id="texttitulo3"><br>
+			  Presentado:
+			  <select id="textEstado3">
+				  <option value="true">Si</option>
+				  <option value="false">No</option>
+			  </select><br>
+			  Fecha de presentación:<br>
+			  <input type="date" name="fecha" id="textFecha3"><br>			  
+			  Calificación:<br>
+			  <input type="text" name="calificacion" id="textCalificacion3"><br>
+		  </form> 
+	      <input type="button" value="Modificar" onclick="updateEstudiante(document.getElementById('textApellidos3').value)" />
+	      <div class="resultados">
+				<h3 id="result3"></h3>
+		  </div>
+	   </div> <!-- #tab-content3 -->
+	</div>
+
+</body>
+</html>

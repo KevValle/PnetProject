@@ -159,8 +159,8 @@ public class AlumDatabase {
 		String sCal = String.format("calificacion=%f", eEstudiante.get_dCalificacion());
 		sCal = sCal.replace(',', '.');
 		
-		String sConsulta = String.format("UPDATE Alumno SET estado=%d, fecha=%s, %s,"
-				+ " titulo='%s' WHERE apellidos='%s'", eEstudiante.get_bEstado() ? 1 : 0, AlumDatabase.DateTime2Sql(eEstudiante.get_ldtFecha()),
+		String sConsulta = String.format("UPDATE Alumno SET estado=%d, fecha='%s', %s,"
+				+ " titulo='%s' WHERE apellidos='%s'", eEstudiante.get_bEstado() ? 1 : 0, new java.sql.Date(eEstudiante.get_ldtFecha().getTime()),
 				sCal, eEstudiante.get_sTitulo(), sApellidos);
 		System.out.println(sConsulta);
 		
